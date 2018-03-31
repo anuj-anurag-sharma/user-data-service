@@ -48,7 +48,7 @@
 	Request - Both clientId and password are mandatory.
 	{"clientId": String,"password": String}
 
-	Response gives the authToken which is to be passed as Authorization header for all calls 	for User Data
+	Response gives the authToken which is to be passed as Authorization header for all calls for User Data
 
 	{"generatedOn": String,"token": String}
 	

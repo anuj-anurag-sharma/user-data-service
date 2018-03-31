@@ -67,6 +67,14 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
 
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<ErrorResponse> genericException(final Exception e) {
+		String message = e.getMessage();
+		ErrorResponse errorResponse = new ErrorResponse(message);
+		LOGGER.error("Exception, {} ", message);
+		return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.BAD_REQUEST);
+	}
+
 	private String formErrorMessage(BindingResult bindingResult) {
 		List<FieldError> errors = bindingResult.getFieldErrors();
 		List<String> message = new ArrayList<>();

@@ -4,6 +4,7 @@ import com.hootboard.userdata.exception.LoginException;
 import com.hootboard.userdata.exception.RegistrationException;
 import com.hootboard.userdata.request.LoginRequest;
 import com.hootboard.userdata.request.RegistrationRequest;
+import com.hootboard.userdata.response.MessageResponse;
 import com.hootboard.userdata.response.Response;
 
 public interface ClientService {

@@ -50,8 +50,8 @@ public class ClientController {
 	}
 
 	@RequestMapping(value = "/auth-token", method = RequestMethod.POST)
-	public ResponseEntity<AuthTokenResponse> generateAuthToken(@RequestBody @Valid LoginRequest login,
-			BindingResult result) throws LoginException, AuthTokenException, RequestValidationException {
+	public ResponseEntity<Response> generateAuthToken(@RequestBody @Valid LoginRequest login, BindingResult result)
+			throws LoginException, AuthTokenException, RequestValidationException {
 		LOGGER.info("generateAuthToken, Request : {}", login);
 		clientSvc.loginClient(login);
 		if (result.hasErrors()) {
@@ -59,7 +59,7 @@ public class ClientController {
 		}
 		AuthTokenResponse atr = authSvc.getAuthToken(login);
 		LOGGER.info("generateAuthToken, Response : {}", atr);
-		return new ResponseEntity<AuthTokenResponse>(atr, HttpStatus.OK);
+		return new ResponseEntity<Response>(atr, HttpStatus.OK);
 
 	}
 

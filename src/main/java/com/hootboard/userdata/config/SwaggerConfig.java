@@ -27,14 +27,14 @@ public class SwaggerConfig {
 				.parameterType("header").required(true).build());
 		return new Docket(DocumentationType.SWAGGER_2).groupName("secured").globalOperationParameters(parameters)
 				.select().apis(RequestHandlerSelectors.basePackage("com.hootboard.userdata.controller"))
-				.paths(PathSelectors.ant("/secure/**")).build();
+				.paths(PathSelectors.ant("/secure/**")).build().apiInfo(apiInfo());
 	}
 
 	@Bean
 	public Docket authApi() {
 		return new Docket(DocumentationType.SWAGGER_2).select()
 				.apis(RequestHandlerSelectors.basePackage("com.hootboard.userdata.controller"))
-				.paths(PathSelectors.ant("/client/*")).build();
+				.paths(PathSelectors.ant("/client/*")).build().apiInfo(apiInfo());
 	}
 
 	@Bean

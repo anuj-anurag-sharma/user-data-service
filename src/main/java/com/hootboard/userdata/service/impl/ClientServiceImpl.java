@@ -28,15 +28,19 @@ public class ClientServiceImpl implements ClientService {
 
 	@Override
 	public Response registerClient(RegistrationRequest request) throws RegistrationException {
-		Client client = new Client();
-		client.setName(request.getName());
-		client.setHashPwd(PasswordUtil.hashPassword(request.getPassword()));
-		Long sequence = counterDao.getSequence("client");
-		client.setId("client-" + sequence);
-		Client save = clientRepo.save(client);
-		MessageResponse response = new MessageResponse();
-		response.setMsg(save.getId());
-		return response;
+		try {
+			Client client = new Client();
+			client.setName(request.getName());
+			client.setHashPwd(PasswordUtil.hashPassword(request.getPassword()));
+			Long sequence = counterDao.getSequence("client");
+			client.setId("client-" + sequence);
+			Client save = clientRepo.save(client);
+			MessageResponse response = new MessageResponse();
+			response.setMsg(save.getId());
+			return response;
+		} catch (Exception e) {
+			throw new RegistrationException(e);
+		}
 	}
 
 	@Override

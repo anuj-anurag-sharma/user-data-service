@@ -1,15 +1,15 @@
 *UserDataService*
 	
 	User Data REST API
-	Swagger available on - http://ec2-13-126-92-66.ap-south-1.compute.amazonaws.com:8099/swagger-ui.html
+	Swagger available on - <http://ec2-13-126-92-66.ap-south-1.compute.amazonaws.com:8099/swagger-ui.html>
 
 *Steps to get going*
 	
-	1) Install Java - https://java.com/download, Set JAVA_HOME environment variable
+	1) Install Java 8 - <https://java.com/download>, Set JAVA_HOME environment variable
 	
-	2) Install Maven - https://maven.apache.org, set MAVEN_HOME environment varible
+	2) Install Maven - <https://maven.apache.org>, set MAVEN_HOME environment varible
 	
-	3) Install Mongodb - https://www.mongodb.com
+	3) Install Mongodb - <https://www.mongodb.com>
 		
 	4) Clone the project and navigate to the project directory	
 		

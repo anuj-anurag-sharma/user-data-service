@@ -52,6 +52,7 @@
 
 	{"generatedOn": String,"token": String}
 	
+	All APIs starting with /secure need an Authorization header as obtained as token from point 2.
 	3. Invalidate Auth Token(Logout): POST on /secure/client/logout
 	
 	Response 

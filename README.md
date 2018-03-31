@@ -1,6 +1,12 @@
 *UserDataService*
 	
-	User Data REST API
+	Technology Stack
+	Language - Java
+	Frameworks - Spring Boot, Spring Security,Spring Data, Swagger(For documentation)
+	Persistence DB - MongoDB
+	Build - Maven
+	Testing - Junit 4,Mockito, PowerMock
+	
 	Swagger available on - http://ec2-13-126-92-66.ap-south-1.compute.amazonaws.com:8099/swagger-ui.html
 
 *Steps to get going*

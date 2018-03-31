@@ -27,12 +27,13 @@ public class UserDaoImpl implements UserDao {
 		if (emails == null || emails.isEmpty()) {
 			return Collections.emptySet();
 		}
-
-		List<Criteria> criterias = emails.stream().map(e -> where("emails").is(e)).collect(Collectors.toList());
+		Set<String> emailsInLC = emails.stream().map(e -> e.toLowerCase()).collect(Collectors.toSet());
+		List<Criteria> criterias = emailsInLC.stream().map(e -> where("emails").is(e.toLowerCase()))
+				.collect(Collectors.toList());
 
 		Criteria consolidated = new Criteria().orOperator(criterias.toArray(new Criteria[0])).and("isActive").is(true);
 		List<User> list = mongo.find(query(consolidated), User.class);
-		Set<String> allEmails = list.stream().flatMap(u -> u.getEmails().stream().filter(a -> emails.contains(a)))
+		Set<String> allEmails = list.stream().flatMap(u -> u.getEmails().stream().filter(a -> emailsInLC.contains(a)))
 				.collect(Collectors.toSet());
 		return allEmails;
 	}

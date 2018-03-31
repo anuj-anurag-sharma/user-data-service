@@ -5,7 +5,7 @@ import java.util.Set;
 import lombok.Data;
 
 @Data
-public class UserResponse {
+public class UserResponse extends Response{
 
 	private String id;
 

@@ -13,8 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.validation.BindingResult;
 
+import com.hootboard.userdata.exception.RequestValidationException;
 import com.hootboard.userdata.exception.UserException;
 import com.hootboard.userdata.request.UserRequest;
+import com.hootboard.userdata.response.Response;
 import com.hootboard.userdata.response.UserResponse;
 import com.hootboard.userdata.service.UserService;
 
@@ -33,7 +35,7 @@ public class UserControllerTest {
 	}
 
 	@Test
-	public void testUserCreate() throws UserException {
+	public void testUserCreate() throws UserException, RequestValidationException {
 		UserResponse ur = new UserResponse();
 		ur.setFirstName("FirstName");
 		Mockito.when(userService.createUser(Mockito.any())).thenReturn(ur);
@@ -51,13 +53,14 @@ public class UserControllerTest {
 		BindingResult result = Mockito.mock(BindingResult.class);
 		Mockito.when(result.hasErrors()).thenReturn(false);
 
-		ResponseEntity<UserResponse> user = userController.createUser(req, result);
-		Assert.assertTrue(user.getBody().getFirstName().equals("FirstName"));
+		ResponseEntity<Response> user = userController.createUser(req, result);
+		UserResponse body = (UserResponse) user.getBody();
+		Assert.assertTrue(body.getFirstName().equals("FirstName"));
 
 	}
 
 	@Test(expected = UserException.class)
-	public void testUserCreateThrowsException() throws UserException {
+	public void testUserCreateThrowsException() throws UserException, RequestValidationException {
 		Mockito.when(userService.createUser(Mockito.any()))
 				.thenThrow(new UserException("Following emails already present : [email@email.com]"));
 

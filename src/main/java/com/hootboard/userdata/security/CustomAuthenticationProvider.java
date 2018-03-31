@@ -3,6 +3,7 @@ package com.hootboard.userdata.security;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -23,7 +24,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		CustomAuthentication ca = (CustomAuthentication) authentication;
 		Optional<AuthToken> record = authTokenRepo.findById(ca.getToken());
 		if (!record.isPresent()) {
-			throw new BadCredentialsException("Auth token is not valid");
+			throw new AuthenticationCredentialsNotFoundException("Auth token is not valid");
 		}
 		ca.setClientId(record.get().getClientId());
 		return authentication;

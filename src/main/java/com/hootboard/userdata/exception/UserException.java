@@ -22,5 +22,4 @@ public class UserException extends Exception {
 	public UserException(Throwable cause) {
 		super(cause);
 	}
-	
 }

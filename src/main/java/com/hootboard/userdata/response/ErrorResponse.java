@@ -3,7 +3,7 @@ package com.hootboard.userdata.response;
 import lombok.Data;
 
 @Data
-public class ErrorResponse {
+public class ErrorResponse extends Response{
 
 	private String error;
 

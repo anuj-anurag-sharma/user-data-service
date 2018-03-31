@@ -2,20 +2,21 @@ package com.hootboard.userdata.service;
 
 import java.util.List;
 
+import com.hootboard.userdata.exception.NotFoundException;
 import com.hootboard.userdata.exception.UserException;
 import com.hootboard.userdata.request.UserRequest;
-import com.hootboard.userdata.response.UserResponse;
+import com.hootboard.userdata.response.Response;
 
 public interface UserService {
 
-	UserResponse createUser(UserRequest userRequest) throws UserException;
+	Response createUser(UserRequest userRequest) throws UserException;
 
-	UserResponse updateUser(String id, UserRequest userRequest) throws UserException;
+	Response updateUser(String id, UserRequest userRequest) throws UserException, NotFoundException;
 
-	UserResponse getUser(String id) throws UserException;
+	Response getUser(String id) throws NotFoundException;
 
-	Boolean deleteUser(String id) throws UserException;
+	Response deleteUser(String id) throws NotFoundException;
 
-	List<UserResponse> getAllUsers();
+	List<Response> getAllUsers() throws UserException;
 
 }

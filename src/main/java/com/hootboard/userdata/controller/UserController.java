@@ -1,24 +1,26 @@
 package com.hootboard.userdata.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hootboard.userdata.exception.NotFoundException;
+import com.hootboard.userdata.exception.RequestValidationException;
 import com.hootboard.userdata.exception.UserException;
 import com.hootboard.userdata.request.UserRequest;
-import com.hootboard.userdata.response.UserResponse;
+import com.hootboard.userdata.response.Response;
 import com.hootboard.userdata.service.UserService;
 
 @RestController
@@ -28,54 +30,54 @@ public class UserController {
 	@Autowired
 	private UserService userSvc;
 
-	// private Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+	private Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public ResponseEntity<UserResponse> createUser(@RequestBody @Valid UserRequest userRequest,
-			BindingResult bindingResult) throws UserException {
+	public ResponseEntity<Response> createUser(@RequestBody @Valid UserRequest userRequest, BindingResult bindingResult)
+			throws UserException, RequestValidationException {
+		LOGGER.info("createUser, Request : {}", userRequest);
 		if (bindingResult.hasErrors()) {
-			List<String> message = formErrorMessage(bindingResult);
-			throw new UserException(message.toString());
+			throw new RequestValidationException(bindingResult);
 		}
-		UserResponse user = userSvc.createUser(userRequest);
-		return new ResponseEntity<UserResponse>(user, HttpStatus.OK);
+		Response user = userSvc.createUser(userRequest);
+		LOGGER.info("createUser, Response :  {}", user);
+		return new ResponseEntity<Response>(user, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<UserResponse> updateUser(@PathVariable String id, @RequestBody @Valid UserRequest userRequest, BindingResult bindingResult)
-			throws UserException {
+	public ResponseEntity<Response> updateUser(@PathVariable String id, @RequestBody @Valid UserRequest userRequest,
+			BindingResult bindingResult) throws UserException, RequestValidationException, NotFoundException {
+		LOGGER.info("updateUser, Request for {} : {}", id, userRequest);
 		if (bindingResult.hasErrors()) {
-			List<String> message = formErrorMessage(bindingResult);
-			throw new UserException(message.toString());
+			throw new RequestValidationException(bindingResult);
 		}
-		UserResponse user = userSvc.updateUser(id, userRequest);
-		return new ResponseEntity<UserResponse>(user, HttpStatus.OK);
+		Response user = userSvc.updateUser(id, userRequest);
+		LOGGER.info("updateUser, Response for {} : {}", id, user);
+		return new ResponseEntity<Response>(user, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<UserResponse> getUser(@PathVariable String id) throws UserException {
-		UserResponse user = userSvc.getUser(id);
-		return new ResponseEntity<UserResponse>(user, HttpStatus.OK);
+	public ResponseEntity<Response> getUser(@PathVariable String id) throws NotFoundException {
+		LOGGER.info("getUser, Request for {}", id);
+		Response user = userSvc.getUser(id);
+		LOGGER.info("getUser, Response for {} : {}", id, user);
+		return new ResponseEntity<Response>(user, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Boolean> deleteUser(@PathVariable String id) throws UserException {
-		Boolean bool = userSvc.deleteUser(id);
-		return new ResponseEntity<Boolean>(bool, HttpStatus.OK);
+	public ResponseEntity<Response> deleteUser(@PathVariable String id) throws NotFoundException {
+		LOGGER.info("getUser, Request for {}", id);
+		Response response = userSvc.deleteUser(id);
+		LOGGER.info("getUser, Response for {} : {}", id, response);
+		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public ResponseEntity<List<UserResponse>> getAllUsers() throws UserException {
-		List<UserResponse> users = userSvc.getAllUsers();
-		return new ResponseEntity<List<UserResponse>>(users, HttpStatus.OK);
+	public ResponseEntity<List<Response>> getAllUsers() throws UserException {
+		LOGGER.info("getAllUsers, Request ");
+		List<Response> users = userSvc.getAllUsers();
+		LOGGER.info("getAllUsers, Response : {} ", users);
+		return new ResponseEntity<List<Response>>(users, HttpStatus.OK);
 	}
 
-	private List<String> formErrorMessage(BindingResult bindingResult) {
-		List<FieldError> errors = bindingResult.getFieldErrors();
-		List<String> message = new ArrayList<>();
-		for (FieldError e : errors) {
-			message.add("@" + e.getField() + ":" + e.getDefaultMessage());
-		}
-		return message;
-	}
 }

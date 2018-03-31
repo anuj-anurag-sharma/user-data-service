@@ -79,7 +79,7 @@ public class UserServiceTest {
 		user.setLastName(req.getLastName());
 		user.setId("12345");
 		Mockito.when(userRepo.save(Mockito.any())).thenReturn(user);
-		UserResponse response = userSvc.createUser(req);
+		UserResponse response = (UserResponse) userSvc.createUser(req);
 		Assert.assertTrue("12345".equals(response.getId()));
 	}
 

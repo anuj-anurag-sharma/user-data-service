@@ -6,6 +6,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import org.hibernate.validator.internal.constraintvalidators.bv.EmailValidator;
+import org.springframework.util.StringUtils;
 
 public class EmailCollectionValidator implements ConstraintValidator<EmailCollection, Collection<String>> {
 
@@ -21,7 +22,8 @@ public class EmailCollectionValidator implements ConstraintValidator<EmailCollec
 		}
 		EmailValidator validator = new EmailValidator();
 		for (String s : value) {
-			if (!validator.isValid(s, context)) {
+
+			if (StringUtils.isEmpty(s) || !validator.isValid(s, context)) {
 				return false;
 			}
 		}

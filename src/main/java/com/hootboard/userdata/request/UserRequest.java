@@ -20,5 +20,5 @@ public class UserRequest {
 	private Set<String> emails;
 
 	private Set<String> addresses;
-
+	
 }

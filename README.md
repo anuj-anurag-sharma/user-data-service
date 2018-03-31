@@ -44,15 +44,20 @@
 	Response gives the clientId, which is to be used for Login and getting AuthToken. 
 	{"msg":String}
 
-	2. Generate Auth Token : POST call on /client/auth-token
+	2. Generate Auth Token(Login) : POST call on /client/auth-token
 	Request - Both clientId and password are mandatory.
 	{"clientId": String,"password": String}
 
-	Response gives the authToken which is to be used for all calls for User Data
+	Response gives the authToken which is to be passed as Authorization header for all calls 	for User Data
 
 	{"generatedOn": String,"token": String}
+	
+	3. Invalidate Auth Token(Logout): POST on /secure/client/logout
+	
+	Response 
+	{"msg":String}
 
-	3. User CRUD operations - 
+	4. User CRUD operations - 
 
 		a. Create User - POST on /secure/user
 			Request - firstName is a mandatory attribute, all emails should be valid.
